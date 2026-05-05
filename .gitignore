@@ -218,3 +218,87 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ── Notebooki Jupyter / Colab ──
+# Checkpointy auto-zapisywane przez Jupyter — śmieci, nie commitujemy.
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# ── Dane treningowe ──
+# FETAL_PLANES_DB ma ~7 GB. GitHub odrzuca pliki >100 MB i nie ma sensu
+# trzymać dużych binariów w git (history puchnie). Dane trzymamy
+# na Google Drive (mountowanym w Colabie) lub Hugging Face Datasets.
+data/raw/
+data/processed/
+data/interim/
+data/external/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# ── Checkpointy modeli ──
+# Pretrained TinyUSFM, własne fine-tuned wagi, itp. — duże binaria,
+# trzymamy na HF Hub albo Google Drive, w git tylko link/wersja.
+*.pth
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+*.h5
+*.pkl
+*.joblib
+models/
+checkpoints/
+
+# ── Cache Hugging Face / PyTorch ──
+# Lokalne pobrane snapshoty modeli/datasetów — odbudowywalne, nie commitujemy.
+.cache/
+.huggingface/
+hub/
+
+# ── Sekrety i tokeny API ──
+# UWAGA: NIGDY nie commituj tokenów do publicznego repo.
+# Jeśli przypadkiem wrzucisz token na GitHub, MUSISZ go natychmiast
+# unieważnić w panelu HF/Wandb i wygenerować nowy.
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+hf_token*
+wandb_token*
+
+# ── Pliki edytora i systemowe ──
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# ── Logi i pliki tymczasowe ──
+*.log
+*.tmp
+tmp/
+temp/
+
+# ── Outputy Gradio ──
+# Tworzone automatycznie przez Gradio przy uruchomieniu app.py
+gradio_cached_examples/
+flagged/
+.gradio/
+
+# ── Mount Google Drive z Colab ──
+drive/
+gdrive/
+
+# ── Outputy treningowe (eksperymenty) ──
+# Logi z wandb, tensorboard, MLflow — duże, lokalne, odtwarzalne z kodu.
+wandb/
+runs/
+mlruns/
+lightning_logs/
+outputs/
+
