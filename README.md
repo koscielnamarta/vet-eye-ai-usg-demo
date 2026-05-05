@@ -19,7 +19,7 @@ Klient docelowy rozwiązania: **Vet Eye S.A.** — polski producent ultrasonogra
 
 | Tydzień | Daty | Cel | Status |
 | :--- | :--- | :--- | :---: |
-| 1 | 4–10.05.2026 | Setup środowiska + pretrained inference | 🟡 w toku |
+| 1 | 4–10.05.2026 | Setup środowiska + pretrained inference | 🟢 gotowe |
 | 2 | 11–17.05.2026 | DataLoader + pierwszy fine-tuning | ⚪ |
 | 3 | 18–24.05.2026 | Quality head + scripted instructions | ⚪ |
 | 4 | 25–31.05.2026 | UI Gradio + deploy na HF Spaces | ⚪ |
@@ -110,7 +110,7 @@ Target customer: **Vet Eye S.A.** — Polish manufacturer of veterinary ultrasou
 
 | Week | Dates | Goal | Status |
 | :--- | :--- | :--- | :---: |
-| 1 | May 4–10, 2026 | Environment setup + pretrained inference | 🟡 in progress |
+| 1 | May 4–10, 2026 | Environment setup + pretrained inference | 🟢 done |
 | 2 | May 11–17, 2026 | DataLoader + first fine-tuning | ⚪ |
 | 3 | May 18–24, 2026 | Quality head + scripted instructions | ⚪ |
 | 4 | May 25–31, 2026 | Gradio UI + HF Spaces deploy | ⚪ |
