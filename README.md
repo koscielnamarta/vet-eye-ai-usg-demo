@@ -1,7 +1,8 @@
 # Vet Eye AI Navigation USG — demo
 
 > AI-asystowana nawigacja USG dla weterynarii — proof of concept zbudowany w ramach projektu końcowego programu **BiznesAI 15** (Akademia Leona Koźmińskiego).
-> Praca dyplomowa: Marta Kościelna · Termin obrony: 4–6 lipca 2026.
+> Praca dyplomowa: Wiktoria Mikołajów, Małgorzata Polaczuk, Aneta Szurmak, Marta Kościelna, Tomasz Dębowski, Tomasz Fic, Marcin Leszczyński, Artur Charles
+Termin obrony: 4–6 lipca 2026.
 
 🇵🇱 [Polski](#-polski) · 🇬🇧 [English](#-english)
 
