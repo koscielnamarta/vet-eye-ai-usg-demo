@@ -302,3 +302,6 @@ mlruns/
 lightning_logs/
 outputs/
 
+
+# Wygenerowany syntetyczny dataset USG - odbudowywalny przez generate_synthetic_usg.py
+synthetic_usg_dataset/dataset/
