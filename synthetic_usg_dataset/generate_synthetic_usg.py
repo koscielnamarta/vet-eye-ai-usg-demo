@@ -506,13 +506,82 @@ def write_split_csv():
     return len(records)
 
 
-def main(only_class=None, write_csv=False, verify=False, repair=False):
+# ------------------------------------------------------------------
+# HOLD-OUT TEST SET (osobny seed, osobny folder)
+# ------------------------------------------------------------------
+def generate_holdout(seed=123, n_per_class=200, output_subdir="holdout"):
+    """
+    Generuje osobny hold-out test set z **innym seedem** niz glowny dataset.
+
+    Cel: uczciwa final evaluation w notebooku - model NIGDY nie widzi tych
+    obrazow podczas treningu / wyboru hyperparametrow (val set z early stopping).
+    Inny seed = inne konkretne obrazy, ta sama dystrybucja statystyczna.
+
+    Parametry:
+      seed            - seed numpy/random (default 123, inny niz glowny SEED=42)
+      n_per_class     - ile obrazow na klase (default 200 -> 800 lacznie)
+      output_subdir   - nazwa podfolderu w dataset/ (default "holdout")
+
+    Output: dataset/{output_subdir}/{CLASS}/CLASS_hNNNN.png
+            (prefix 'h' w nazwie pliku odroznia od train/test)
+    """
+    # Reset seedow na nowa wartosc
+    random.seed(seed)
+    np.random.seed(seed)
+    print(f"[HOLDOUT] seed={seed}, n_per_class={n_per_class}, subdir={output_subdir}")
+
+    out_root = OUTPUT_DIR / output_subdir
+    out_root.mkdir(parents=True, exist_ok=True)
+
+    total_generated = 0
+    total_skipped = 0
+    total_failed = 0
+
+    for class_name in CLASSES:
+        cls_dir = out_root / class_name
+        cls_dir.mkdir(parents=True, exist_ok=True)
+        print(f"[HOLDOUT/{class_name}] target: {n_per_class} obrazow")
+
+        generated, skipped, failed = 0, 0, 0
+        for i in range(n_per_class):
+            fname = f"{class_name}_h{i:04d}.png"  # 'h' = holdout
+            out_path = cls_dir / fname
+
+            # Idempotentnie: pomijamy istniejace poprawne pliki
+            if out_path.exists() and is_file_valid_png(out_path):
+                skipped += 1
+                continue
+
+            img = generate_image(class_name)
+            ok = save_image_safely(img, out_path, class_name=class_name)
+            if ok:
+                generated += 1
+            else:
+                failed += 1
+
+        print(f"[HOLDOUT/{class_name}] DONE: wygenerowano {generated}, "
+              f"pominieto {skipped}, BLEDY: {failed}")
+        total_generated += generated
+        total_skipped   += skipped
+        total_failed    += failed
+
+    print(f"\n[HOLDOUT] Lacznie: wygenerowano {total_generated}, "
+          f"pominieto {total_skipped}, BLEDY: {total_failed}")
+    print(f"[HOLDOUT] Folder: {out_root}")
+    return total_failed
+
+
+def main(only_class=None, write_csv=False, verify=False, repair=False,
+         holdout=False, holdout_seed=123, holdout_n=200):
     print(f"[INFO] Output: {OUTPUT_DIR}")
     if verify:
         verify_dataset()
         return
     if repair:
         repair_dataset()
+        return
+    if holdout:
+        generate_holdout(seed=holdout_seed, n_per_class=holdout_n)
         return
     if write_csv:
         write_split_csv()
@@ -532,6 +601,16 @@ if __name__ == "__main__":
         main(repair=True)
         if "--csv" in args:
             main(write_csv=True)
+    elif "--holdout" in args:
+        # python generate_synthetic_usg.py --holdout
+        # opcjonalnie: --holdout-seed 123 --holdout-n 200
+        seed = 123
+        n = 200
+        if "--holdout-seed" in args:
+            seed = int(args[args.index("--holdout-seed") + 1])
+        if "--holdout-n" in args:
+            n = int(args[args.index("--holdout-n") + 1])
+        main(holdout=True, holdout_seed=seed, holdout_n=n)
     elif "--csv" in args:
         main(write_csv=True)
     elif args:
