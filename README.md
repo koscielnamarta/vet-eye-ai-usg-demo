@@ -13,12 +13,18 @@ Projekt końcowy BiznesAI 15, Akademia Leona Koźmińskiego.
 | 🤗 Model | [koscielnamarta/synthetic-usg-afast-vet-classifier](https://huggingface.co/koscielnamarta/synthetic-usg-afast-vet-classifier) |
 | 🤗 Demo (HF Spaces) | [koscielnamarta/vet-eye-usg-demo](https://huggingface.co/spaces/koscielnamarta/vet-eye-usg-demo) |
 
+## Jak czytać to portfolio
+
+1. [`notebooks/02b_finetune_synthetic_usg.ipynb`](notebooks/02b_finetune_synthetic_usg.ipynb) — trening: fine-tuning TinyUSFM na syntetycznym datasecie AFAST (transfer learning, 2 etapy: linear probing → partial unfreezing)
+2. [`notebooks/03_furassist_architecture.ipynb`](notebooks/03_furassist_architecture.ipynb) — wdrożenie: pełny pipeline od obrazu do instrukcji nawigacyjnej, metryki na 3 zbiorach, stress test
+3. [`archive/`](archive/) — wcześniejsze iteracje: porównanie domenowe FETAL_PLANES, kalibracja progu pewności
+
 ## Struktura repozytorium
 
 ```
 notebooks/
-  02b_finetune_synthetic_usg.ipynb   ← trening fine-tuning (artefakt treningowy)
-  03_furassist_architecture.ipynb    ← GŁÓWNY — reference implementation pipeline
+  02b_finetune_synthetic_usg.ipynb   ← trening (artefakt treningowy)
+  03_furassist_architecture.ipynb    ← pipeline wdrożeniowy (reference implementation)
 archive/
   02_finetune_fetal_planes.ipynb     ← porównanie domenowe (FETAL_PLANES_DB, 6 klas)
   04_confidence_threshold_calibration.ipynb  ← kalibracja progu pewności
@@ -58,8 +64,8 @@ AFASTNavigator   (current_view, views_done) → instrukcja nawigacyjna (PL/EN)
 | Zbiór | Acc (accepted) | Acc (overall) | Abstain rate | Macro F1 |
 |---|---|---|---|---|
 | Val (czysty syntetyk) | 1.0000 | 0.9525 | 0.0475 | 0.9749 |
-| Holdout easy | 1.0000 | 0.9625 | ~0.04 | ~0.98 |
-| Holdout hard (OOD-like) | ~0.699 | ~0.656 | ~0.061 | ~0.66 |
+| Holdout easy | 1.0000 | 0.9263 | 0.0737 | 0.9593 |
+| Holdout hard (OOD-like) | 0.8056 | 0.4713 | 0.4150 | 0.5324 |
 
 *Threshold = 0.85, model: `checkpoints/best_i2.pt` (I2 partial unfreezing, 1 blok).*
 
