@@ -61,13 +61,19 @@ AFASTNavigator   (current_view, views_done) → instrukcja nawigacyjna (PL/EN)
 
 ## Wyniki
 
+**Trening (checkpoint `best_i2.pt`):** I1 linear probing val_acc 0.7238 → I2 partial unfreezing (1 blok) val_acc **0.9988**. Bez progu pewności: easy holdout 0.9975, hard holdout 0.8013. Pełna historia treningu i raporty per-klasa: [`outputs/final_report.json`](https://huggingface.co/koscielnamarta/synthetic-usg-afast-vet-classifier/blob/main/outputs/final_report.json) na HF Model Hub.
+
+**Pełny pipeline z progiem pewności (θ = 0.85):**
+
 | Zbiór | Acc (accepted) | Acc (overall) | Abstain rate | Macro F1 |
 |---|---|---|---|---|
-| Val (czysty syntetyk) | 1.0000 | 0.9525 | 0.0475 | 0.9749 |
-| Holdout easy | 1.0000 | 0.9263 | 0.0737 | 0.9593 |
-| Holdout hard (OOD-like) | 0.8056 | 0.4713 | 0.4150 | 0.5324 |
+| Val (czysty syntetyk) | 1.0000 | 0.9750 | 0.0250 | 0.9872 |
+| Holdout easy | 1.0000 | 0.9700 | 0.0300 | 0.9846 |
+| Holdout hard (OOD-like) | 0.8996 | 0.6275 | 0.3025 | 0.7098 |
 
-*Threshold = 0.85, model: `checkpoints/best_i2.pt` (I2 partial unfreezing, 1 blok).*
+*Threshold = 0.85, model: `checkpoints/best_i2.pt` (I2 partial unfreezing, 1 blok). Na zbiorze hard model wstrzymuje odpowiedź (abstain) w 30% przypadków zamiast podawać potencjalnie błędną instrukcję — to zamierzony mechanizm bezpieczeństwa.*
+
+*Uwaga o reprodukcji: outputy zapisane w notebooku 02b pochodzą z osobnego uruchomienia treningu — drobne różnice wartości (np. I1 val_acc 0.7225 vs 0.7238) wynikają z niedeterminizmu treningu na GPU. Wartościami kanonicznymi dla opublikowanego checkpointu są `outputs/final_report.json` w repo modelu.*
 
 ## Quick start (Colab)
 
